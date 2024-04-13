@@ -2,9 +2,8 @@
 
 [![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/kv_memoize/mod.ts?s=kvMemoize)
 
-This library provides a utility function for memoization using Deno KV. It
-allows you to cache the results of expensive function calls and return the
-cached result when the same inputs occur again.
+This library provides a utility function for memoization using Deno KV.
+It allows you to cache the results of expensive function calls and return the cached result when the same inputs occur again.
 
 ## Example
 

@@ -21,7 +21,7 @@ export interface KvMemoizeOptions<
    *
    * A nullish result will always be recalculated.
    *
-   * Defaults to never recalculating the result.
+   * Defaults to never recalculating the result if not nullish.
    */
   shouldRecalculate?:
     | ((this: void, result: NonNullable<R>, ...args: A) => boolean)
@@ -34,7 +34,7 @@ export interface KvMemoizeOptions<
    *
    * A nullish result will never be cached.
    *
-   * Defaults to always caching the result.
+   * Defaults to always caching the result if not nullish.
    */
   shouldCache?:
     | ((this: void, result: NonNullable<R>, ...args: A) => boolean)
