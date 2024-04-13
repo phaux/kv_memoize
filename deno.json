@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true
+  },
+  "fmt": {
+    "proseWrap": "preserve"
+  },
+  "lint": {
+    "rules": {
+      "exclude": [
+        "require-await"
+      ]
+    }
+  },
+  "tasks": {
+    "cdnup": "deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@v1.0.0/main.ts --skip '**/coverage' -w",
+    "test": "rm -rf coverage && deno test --unstable-kv --coverage && deno coverage --lcov --output=coverage/lcov.info && deno lint"
+  }
+}

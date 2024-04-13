@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
-      - run: deno run --allow-read --allow-write=. --allow-net https://deno.land/x/cdnup@0.1.0/mod.ts -w
+      - run: deno task cdnup
       - uses: peter-evans/create-pull-request@v6
         with:
           branch: "update-cdn-deps"
