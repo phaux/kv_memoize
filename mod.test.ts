@@ -363,3 +363,60 @@ Deno.test("returns the same promise for concurrent calls", async () => {
   assertEquals(getCount, 4);
   assertEquals(setCount, 2);
 });
+
+Deno.test("supports binary keys", async () => {
+  let counter = 0;
+
+  const fn = async (a: Uint8Array, b: Uint8Array) => {
+    counter++;
+    await delay(100);
+    return a.byteLength + b.byteLength;
+  };
+
+  const key = new TextEncoder().encode("binary");
+  const memoFn = kvMemoize(db, [key], fn);
+
+  assertObjectMatch(
+    await db.get([key, new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
+    { versionstamp: null },
+  );
+
+  assertEquals(
+    await memoFn(new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])),
+    6,
+  );
+  assertEquals(counter, 1);
+  assertObjectMatch(
+    await db.get([key, new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
+    { value: 6 },
+  );
+
+  assertObjectMatch(
+    await db.get([key, new Uint8Array([4, 5, 6]), new Uint8Array([1, 2, 3])]),
+    { versionstamp: null },
+  );
+
+  const promises = Array.from(
+    { length: 10 },
+    () => memoFn(new Uint8Array([1, 2, 3]), new Uint8Array([7, 8, 9])),
+  );
+  assertEquals(
+    await Promise.all(promises),
+    Array.from({ length: 10 }, () => 6),
+  );
+  assertEquals(counter, 2);
+  assertObjectMatch(
+    await db.get([key, new Uint8Array([1, 2, 3]), new Uint8Array([7, 8, 9])]),
+    { value: 6 },
+  );
+
+  const promises2 = Array.from(
+    { length: 10 },
+    () => memoFn(new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])),
+  );
+  assertEquals(
+    await Promise.all(promises2),
+    Array.from({ length: 10 }, () => 6),
+  );
+  assertEquals(counter, 2);
+});
