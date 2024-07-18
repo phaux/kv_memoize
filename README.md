@@ -5,6 +5,10 @@
 This library provides a utility function for memoization using Deno KV.
 It allows you to cache the results of expensive function calls and return the cached result when the same inputs occur again.
 
+> [!WARNING]
+> 
+> Deprecated. Use https://github.com/phaux/mega-memoize
+
 ## Example
 
 ```ts
