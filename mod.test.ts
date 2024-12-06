@@ -2,8 +2,8 @@ import {
   assertEquals,
   assertObjectMatch,
   assertRejects,
-} from "https://deno.land/std@0.221.0/assert/mod.ts";
-import { delay } from "https://deno.land/std@0.221.0/async/mod.ts";
+} from "https://deno.land/std@0.224.0/assert/mod.ts";
+import { delay } from "https://deno.land/std@0.224.0/async/mod.ts";
 import { kvMemoize } from "./mod.ts";
 
 const db = await Deno.openKv();
